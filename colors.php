@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Selfie Mood Ring</title>
+<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300|Work+Sans:300" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="insta.js"></script>
+<script src="2.js"></script>
+
+<style>
+h1, h2, h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight:100;
+  }
+h1 {font-size:.8em;color:#1a1a1a;margin:0;}  
+h2 {font-size:2.5em;color:#fff;}  
+h3 {
+    font-size: 1em;
+    position: absolute;
+    margin: 320px 0px 0px 10px;
+    color: #fff;
+  }  
+p {
+    font-family: 'work sans', sans-serif;
+    font-weight:300;
+  }
+.nav {width:100%;height:40px;}
+#instafeed a {
+    display: block;
+    width: 300px;
+    height:380px;
+    border: 17px solid;
+    float: left;
+    color: #fff;
+    margin: 11px;
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 100;
+    font-size: 1.8em;
+    text-transform: capitalize;
+    box-shadow: 0px 3px 20px -11px #000000;
+}
+img {
+    clip: rect(0px,300px,300px,0px);
+    position: absolute;
+    min-height: 300px;
+    min-width: 300px;
+}
+button {
+    padding: 12px 50px;
+    margin: 10px 0px;
+    transition: .2s;
+    background: #f3f3f3;
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0px 3px 20px -11px #000000;
+    font-size: 18px;
+    font-family: 'Cormorant Garamond', serif;
+}
+button:hover {
+    box-shadow: none;
+    margin: 12px 0px 8px 0px;
+    transition: .2s;
+}
+
+.content {width:1080px;margin:0 auto;}
+
+#instafeed {margin: 0 auto; width: 1080px;}
+  
+#allImages{display:none;}
+  
+#myColor {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 100;
+    margin: 0 auto;
+    font-size: 3.5em;
+    text-transform: capitalize;
+    font-family: 'Cormorant Garamond', serif; 
+  }
+.myColor {
+    padding: 20px;
+    min-height:350px;
+    margin: 40px auto;
+    background: #fff;
+    color: #1a1a1a;
+    box-shadow: 0px 3px 20px -11px #000000;
+}
+#colorSq {
+  width: 350px;
+  height: 350px;
+  margin: 0px 0px 10px 30px;
+  float: right;
+}
+#hex { text-transform: uppercase;}
+.mgt0 {margin-top:0;}
+.fcg {font-family: 'Cormorant Garamond', serif!important;}
+.flr {float:right;}
+.tar {text-align:right;}
+.fll {float:left;}
+.w50 {width:50%;}
+
+@media only screen and (max-width:1080px) {
+  #instafeed {width:768px;}
+}
+</style>
+</head>
+
+<body>
+  <div class="content">
+    <div class="nav">
+      <p class="fcg fll w50">Selfie Mood Ring</p>
+      <p class="fcg flr tar w50"><a href="#">About</a></p>
+    </div>
+      <div class="myColor">
+           <div id="colorSq"></div>
+        <p class="mgt0">Your color is:</p>
+           <div id="myColor"></div>
+           <hr>
+           <div id="hex"></div>
+           <div id="rgb"></div>
+            <a href="#"><button id="download-jpg" class="download-btn">Save Color</button></a>
+        <p>Download your color square and share it to Instagram. Be sure to tag <a href="https://www.instagram.com/selfiemoodring/" target="_blank">@selfiemoodring</a> to spread the ❤️. </p>
+      </div>
+
+  <canvas id="allImages" height="320" width="6400"></canvas>
+
+
+  <div id="instafeed"></div>
+
+
+</div>
+</body>
+
+<script>
+//var avg = {r:0,g:0,b:0,count:0};
+var x = -320;
+
+var canvas = document.getElementById('allImages');
+var context = canvas.getContext('2d');
+    
+
+function rgbToHex(c) {
+    return ((1 << 24) + (parseInt(c.r) << 16) + (parseInt(c.g) << 8) + parseInt(c.b)).toString(16).slice(1);
+}
+
+function hue(r,g,b) {
+  return (Math.abs(r-g)*Math.abs(r-g) + Math.abs(r-b)*Math.abs(r-b) + Math.abs(g-b)*Math.abs(g-b))/65535*50+1;
+}
+
+$(function() {
+var fragmentString = location.hash.substr(1);
+   var fragment = {};
+   var fragmentItemStrings = fragmentString.split('&');
+   for (var i in fragmentItemStrings) {
+     var fragmentItem = fragmentItemStrings[i].split('=');
+     if (fragmentItem.length !== 2) {
+       continue;
+     }
+   
+   }
+
+   var feed = new Instafeed({
+        get: 'user',
+    userId :  'self',
+        accessToken: fragmentItem[1],
+    limit: '60',
+    resolution: "low_resolution",
+    after: showColors
+    });
+  
+  /*$('#han').on('click', function() {
+        feed.next();
+    console.log(feed.next());
+    });*/
+  
+    feed.run();
+
+
+});
+
+
+
+
+//=============================
+
+
+
+function showColors() {
+    
+ $( "a" ).each(function() {
+ var a = $(this);
+ var img = new Image();
+ img.onload = function () {
+
+ context.drawImage(img, x+=320, 0);
+ 
+ var rgb = new ColorFinder(hue).getMostProminentColor(img);
+
+  
+  a.css("background-color", 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')');
+
+ $.ajax({
+        url: 'http://www.colourlovers.com/api/color/'+rgbToHex(rgb),
+        dataType:'jsonp',
+        data: {
+            format: 'json', 
+        },
+        jsonp: 'jsonCallback',
+        success: function(data){
+            a.append(`<h3>${data[0].title}</h3>`);           
+            
+        }          
+    });
+  
+  /*
+  
+  avg.r += parseInt(rgb.r);
+  avg.g += parseInt(rgb.g);
+  avg.b += parseInt(rgb.b);
+  avg.count++;
+  
+  */
+  
+  
+};
+img.crossOrigin = 'Anonymous';
+img.src = $(this).children().attr('src');
+
+
+
+//allImages.push(img.src);
+ 
+
+
+});
+
+  //var rgb2 = new ColorFinder(hue).getMostProminentColor($('#han')[0]);
+// $('#mycolor').css("background-color", 'rgb('+rgb2.r+','+rgb2.g+','+rgb2.b+')');
+
+
+
+}
+
+
+setTimeout(function(){
+   var rgb2 = new ColorFinder(hue).getMostProminentColor(canvas);
+console.log(rgb2);
+$('html').css("background-color", 'rgb('+rgb2.r+','+rgb2.g+','+rgb2.b+')');
+$('#colorSq').css("background-color", 'rgb('+rgb2.r+','+rgb2.g+','+rgb2.b+')');
+$('button').css("background-color", 'rgb('+rgb2.r+','+rgb2.g+','+rgb2.b+')');
+$('#hex').append(`<p>HEX: #${rgbToHex(rgb2)}</p>`)
+$('#rgb').append(`<p>RGB: ${rgb2.r}, ${rgb2.g}, ${rgb2.b}</p>`)
+ $.ajax({
+        url: 'http://www.colourlovers.com/api/color/'+rgbToHex(rgb2),
+        dataType:'jsonp',
+        data: {
+            format: 'json', 
+        },
+        jsonp: 'jsonCallback',
+        success: function(data){
+            $('#myColor').append(`<h1>${data[0].title}</h1>`);           
+            
+        }          
+    });
+}, 6000);
+
+  $('#download-jpg').click(function(){
+    html2canvas($('#colorSq'), 
+    {
+      onrendered: function (canvas) {
+        var a = document.createElement('a');
+        // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+        a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+        a.download = 'selfie-mood.jpg';
+        a.click();
+      }
+    });
+  });
+
+
+</script>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Selfie Mood Ring</title>
+	<link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300|Work+Sans:300" rel="stylesheet">
+	<style>
+		h1 {font-family: 'Cormorant Garamond', serif;color:#fff;font-size:3.5em;font-weight:100;}
+		p {font-family: 'work sans', sans-serif;color:#fff;font-weight:300;margin-bottom:30px;}
+		.container {width: 100vw;height: 100%;}
+		.modal {
+			background:#1a1a1a;
+			padding:30px 40px 60px 40px;
+			max-width: 500px;
+			width: 100%;
+			text-align: center;
+			margin:10%;
+		}
+		button {
+			padding: 15px 64px;
+			margin-top:10px;
+		    background: #fff;
+		    border: 0px;
+	        cursor: pointer;
+		    font-size: 18px;
+		    font-family: 'Cormorant Garamond', serif;
+		}
+		body {
+			color: #fff;
+			background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+			background-size: 400% 400%;
+			background-attachment: fixed;
+			-webkit-animation: Gradient 15s ease infinite;
+			-moz-animation: Gradient 15s ease infinite;
+			animation: Gradient 15s ease infinite;
+		}
+
+		@-webkit-keyframes Gradient {
+			0% {
+				background-position: 0% 50%
+			}
+			50% {
+				background-position: 100% 50%
+			}
+			100% {
+				background-position: 0% 50%
+			}
+		}
+
+		@-moz-keyframes Gradient {
+			0% {
+				background-position: 0% 50%
+			}
+			50% {
+				background-position: 100% 50%
+			}
+			100% {
+				background-position: 0% 50%
+			}
+		}
+
+		@keyframes Gradient {
+			0% {
+				background-position: 0% 50%
+			}
+			50% {
+				background-position: 100% 50%
+			}
+			100% {
+				background-position: 0% 50%
+			}
+}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="modal">
+			<h1>Welcome to your Selfie Mood Ring</h1>
+			<p>Click the button below to find the color of your life</p>
+			<a href="https://www.instagram.com/oauth/authorize/?client_id=34d6c14939524c20b203a605a149e2c2&redirect_uri=http://insta.topset.co/colors.php&response_type=token"><button>Authenticate</button></a>
+		</div>
+	</div>
+
+</body>
+</html>
