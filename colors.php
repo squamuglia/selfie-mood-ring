@@ -14,14 +14,14 @@ h1, h2, h3 {
     font-family: 'Cormorant Garamond', serif;
     font-weight:100;
   }
-h1 {font-size:.8em;color:#1a1a1a;margin:0;}  
-h2 {font-size:2.5em;color:#fff;}  
+h1 {font-size:.8em;color:#1a1a1a;margin:0;}
+h2 {font-size:2.5em;color:#fff;}
 h3 {
     font-size: 1em;
     position: absolute;
     margin: 320px 0px 0px 10px;
     color: #fff;
-  }  
+  }
 p {
     font-family: 'work sans', sans-serif;
     font-weight:300;
@@ -68,9 +68,9 @@ button:hover {
 .content {width:1080px;margin:0 auto;}
 
 #instafeed {margin: 0 auto; width: 1080px;}
-  
+
 #allImages{display:none;}
-  
+
 #myColor {
     color: #fff;
     text-decoration: none;
@@ -78,7 +78,7 @@ button:hover {
     margin: 0 auto;
     font-size: 3.5em;
     text-transform: capitalize;
-    font-family: 'Cormorant Garamond', serif; 
+    font-family: 'Cormorant Garamond', serif;
   }
 .myColor {
     padding: 20px;
@@ -135,12 +135,11 @@ button:hover {
 </body>
 
 <script>
-//var avg = {r:0,g:0,b:0,count:0};
 var x = -320;
 
 var canvas = document.getElementById('allImages');
 var context = canvas.getContext('2d');
-    
+
 
 function rgbToHex(c) {
     return ((1 << 24) + (parseInt(c.r) << 16) + (parseInt(c.g) << 8) + parseInt(c.b)).toString(16).slice(1);
@@ -159,7 +158,7 @@ var fragmentString = location.hash.substr(1);
      if (fragmentItem.length !== 2) {
        continue;
      }
-   
+
    }
 
    var feed = new Instafeed({
@@ -170,12 +169,7 @@ var fragmentString = location.hash.substr(1);
     resolution: "low_resolution",
     after: showColors
     });
-  
-  /*$('#han').on('click', function() {
-        feed.next();
-    console.log(feed.next());
-    });*/
-  
+
     feed.run();
 
 
@@ -189,58 +183,38 @@ var fragmentString = location.hash.substr(1);
 
 
 function showColors() {
-    
+
  $( "a" ).each(function() {
  var a = $(this);
  var img = new Image();
  img.onload = function () {
 
  context.drawImage(img, x+=320, 0);
- 
+
  var rgb = new ColorFinder(hue).getMostProminentColor(img);
 
-  
+
   a.css("background-color", 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')');
 
  $.ajax({
         url: 'http://www.colourlovers.com/api/color/'+rgbToHex(rgb),
         dataType:'jsonp',
         data: {
-            format: 'json', 
+            format: 'json',
         },
         jsonp: 'jsonCallback',
         success: function(data){
-            a.append(`<h3>${data[0].title}</h3>`);           
-            
-        }          
+            a.append(`<h3>${data[0].title}</h3>`);
+
+        }
     });
-  
-  /*
-  
-  avg.r += parseInt(rgb.r);
-  avg.g += parseInt(rgb.g);
-  avg.b += parseInt(rgb.b);
-  avg.count++;
-  
-  */
-  
-  
+
 };
 img.crossOrigin = 'Anonymous';
 img.src = $(this).children().attr('src');
 
 
-
-//allImages.push(img.src);
- 
-
-
 });
-
-  //var rgb2 = new ColorFinder(hue).getMostProminentColor($('#han')[0]);
-// $('#mycolor').css("background-color", 'rgb('+rgb2.r+','+rgb2.g+','+rgb2.b+')');
-
-
 
 }
 
@@ -257,18 +231,18 @@ $('#rgb').append(`<p>RGB: ${rgb2.r}, ${rgb2.g}, ${rgb2.b}</p>`)
         url: 'http://www.colourlovers.com/api/color/'+rgbToHex(rgb2),
         dataType:'jsonp',
         data: {
-            format: 'json', 
+            format: 'json',
         },
         jsonp: 'jsonCallback',
         success: function(data){
-            $('#myColor').append(`<h1>${data[0].title}</h1>`);           
-            
-        }          
+            $('#myColor').append(`<h1>${data[0].title}</h1>`);
+
+        }
     });
 }, 6000);
 
   $('#download-jpg').click(function(){
-    html2canvas($('#colorSq'), 
+    html2canvas($('#colorSq'),
     {
       onrendered: function (canvas) {
         var a = document.createElement('a');
