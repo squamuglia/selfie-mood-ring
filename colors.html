@@ -150,27 +150,34 @@ function hue(r,g,b) {
 }
 
 $(function() {
-var fragmentString = location.hash.substr(1);
-   var fragment = {};
-   var fragmentItemStrings = fragmentString.split('&');
-   for (var i in fragmentItemStrings) {
-     var fragmentItem = fragmentItemStrings[i].split('=');
-     if (fragmentItem.length !== 2) {
-       continue;
-     }
+// var fragmentString = location.hash.substr(1);
+//    var fragment = {};
+//    var fragmentItemStrings = fragmentString.split('&');
+//    for (var i in fragmentItemStrings) {
+//      var fragmentItem = fragmentItemStrings[i].split('=');
+//      if (fragmentItem.length !== 2) {
+//        continue;
+//      }
+//
+//    }
 
-   }
+    var userName = window.location.href.split("=")[1]
 
-   var feed = new Instafeed({
-        get: 'user',
-    userId :  'self',
-        accessToken: fragmentItem[1],
-    limit: '60',
-    resolution: "low_resolution",
-    after: showColors
+
+   $.getJSON('https://allorigins.me/get?url=' + encodeURIComponent(userName), function(data){
+    alert(data.contents);
     });
 
-    feed.run();
+   // var feed = new Instafeed({
+   //      get: 'user',
+   //  userId :  'self',
+   //      accessToken: fragmentItem[1],
+   //  limit: '60',
+   //  resolution: "low_resolution",
+   //  after: showColors
+   //  });
+   //
+   //  feed.run();
 
 
 });
